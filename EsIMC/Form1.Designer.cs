@@ -44,12 +44,13 @@
             this.rdbModa = new System.Windows.Forms.RadioButton();
             this.rdbMedia = new System.Windows.Forms.RadioButton();
             this.rdbIMCsingolo = new System.Windows.Forms.RadioButton();
+            this.pnlImmagine = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtNominativo
             // 
-            this.txtNominativo.Location = new System.Drawing.Point(24, 12);
+            this.txtNominativo.Location = new System.Drawing.Point(12, 20);
             this.txtNominativo.Name = "txtNominativo";
             this.txtNominativo.Size = new System.Drawing.Size(193, 22);
             this.txtNominativo.TabIndex = 0;
@@ -58,7 +59,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(223, 15);
+            this.label1.Location = new System.Drawing.Point(211, 23);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(106, 16);
             this.label1.TabIndex = 1;
@@ -66,7 +67,7 @@
             // 
             // txtPeso
             // 
-            this.txtPeso.Location = new System.Drawing.Point(363, 15);
+            this.txtPeso.Location = new System.Drawing.Point(431, 18);
             this.txtPeso.Name = "txtPeso";
             this.txtPeso.Size = new System.Drawing.Size(77, 22);
             this.txtPeso.TabIndex = 2;
@@ -75,7 +76,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(456, 18);
+            this.label2.Location = new System.Drawing.Point(514, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 16);
             this.label2.TabIndex = 3;
@@ -84,7 +85,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(659, 18);
+            this.label3.Location = new System.Drawing.Point(696, 21);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(92, 16);
             this.label3.TabIndex = 5;
@@ -92,10 +93,11 @@
             // 
             // txtAltezza
             // 
-            this.txtAltezza.Location = new System.Drawing.Point(555, 15);
+            this.txtAltezza.Location = new System.Drawing.Point(613, 18);
             this.txtAltezza.Name = "txtAltezza";
             this.txtAltezza.Size = new System.Drawing.Size(77, 22);
             this.txtAltezza.TabIndex = 4;
+            this.txtAltezza.TextChanged += new System.EventHandler(this.txtAltezza_TextChanged);
             // 
             // lstPersone
             // 
@@ -124,16 +126,17 @@
             // 
             // btnAvvia
             // 
-            this.btnAvvia.Location = new System.Drawing.Point(525, 32);
+            this.btnAvvia.Location = new System.Drawing.Point(351, 32);
             this.btnAvvia.Name = "btnAvvia";
             this.btnAvvia.Size = new System.Drawing.Size(75, 23);
             this.btnAvvia.TabIndex = 7;
             this.btnAvvia.Text = "AVVIA";
             this.btnAvvia.UseVisualStyleBackColor = true;
+            this.btnAvvia.Click += new System.EventHandler(this.btnAvvia_Click);
             // 
             // btnSalva
             // 
-            this.btnSalva.Location = new System.Drawing.Point(342, 32);
+            this.btnSalva.Location = new System.Drawing.Point(574, 32);
             this.btnSalva.Name = "btnSalva";
             this.btnSalva.Size = new System.Drawing.Size(75, 23);
             this.btnSalva.TabIndex = 6;
@@ -162,6 +165,7 @@
             this.rdbVarianza.Text = "VARIANZA IMC";
             this.rdbVarianza.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rdbVarianza.UseVisualStyleBackColor = true;
+            this.rdbVarianza.CheckedChanged += new System.EventHandler(this.rdbVarianza_CheckedChanged);
             // 
             // rdbMediana
             // 
@@ -173,6 +177,7 @@
             this.rdbMediana.TabStop = true;
             this.rdbMediana.Text = "MEDIANA IMC";
             this.rdbMediana.UseVisualStyleBackColor = true;
+            this.rdbMediana.CheckedChanged += new System.EventHandler(this.rdbMediana_CheckedChanged);
             // 
             // rdbModa
             // 
@@ -184,6 +189,7 @@
             this.rdbModa.TabStop = true;
             this.rdbModa.Text = "MODA IMC";
             this.rdbModa.UseVisualStyleBackColor = true;
+            this.rdbModa.CheckedChanged += new System.EventHandler(this.rdbModa_CheckedChanged);
             // 
             // rdbMedia
             // 
@@ -195,6 +201,7 @@
             this.rdbMedia.TabStop = true;
             this.rdbMedia.Text = "MEDIA IMC";
             this.rdbMedia.UseVisualStyleBackColor = true;
+            this.rdbMedia.CheckedChanged += new System.EventHandler(this.rdbMedia_CheckedChanged);
             // 
             // rdbIMCsingolo
             // 
@@ -208,11 +215,20 @@
             this.rdbIMCsingolo.UseVisualStyleBackColor = true;
             this.rdbIMCsingolo.CheckedChanged += new System.EventHandler(this.rdbIMCsingolo_CheckedChanged);
             // 
+            // pnlImmagine
+            // 
+            this.pnlImmagine.Location = new System.Drawing.Point(323, 3);
+            this.pnlImmagine.Name = "pnlImmagine";
+            this.pnlImmagine.Size = new System.Drawing.Size(92, 39);
+            this.pnlImmagine.TabIndex = 8;
+            this.pnlImmagine.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlImmagine_Paint);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pnlImmagine);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lstPersone);
             this.Controls.Add(this.label3);
@@ -247,6 +263,7 @@
         private System.Windows.Forms.Button btnAvvia;
         private System.Windows.Forms.Button btnSalva;
         private System.Windows.Forms.TextBox txtNominativo;
+        private System.Windows.Forms.Panel pnlImmagine;
     }
 }
 
