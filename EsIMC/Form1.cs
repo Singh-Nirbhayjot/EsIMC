@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace EsIMC
 {
@@ -17,16 +13,16 @@ namespace EsIMC
         int altezza;
 
         List<double> valoriIMC = new List<double>();
-        List<string> nomiPersone = new List<string>();
-        
+        List<string> datiPersone = new List<string>();
 
         public Form1()
         {
             InitializeComponent();
 
-
             pnlImmagine.BackgroundImage = Image.FromFile("IMC.png");
             pnlImmagine.BackgroundImageLayout = ImageLayout.Stretch;
+
+            panel2.Visible = false;
         }
 
         private void btnEsegui_Click(object sender, EventArgs e)
@@ -60,26 +56,26 @@ namespace EsIMC
                     return;
                 }
 
-                // Calcola l'IMC (Peso / Altezza²) in metri
                 double altezzaInMetri = altezza / 100.0;
                 double imc = peso / (altezzaInMetri * altezzaInMetri);
 
                 valoriIMC.Add(imc);
-                nomiPersone.Add(nome);
-
-                lstPersone.Items.Add(nome + " - " + peso + "kg - " + altezza + "cm : IMC = " + Math.Round(imc, 2));
 
                 string categoria = OttieniCategoriaIMC(imc);
+                string riga = nome + " - " + peso + "kg - " + altezza + "cm : IMC = " + Math.Round(imc, 2) + " - " + categoria;
+
+                datiPersone.Add(riga);
+                lstPersone.Items.Add(riga);
+
                 MessageBox.Show(nome + ", il tuo IMC è: " + Math.Round(imc, 2) + "\nCategoria: " + categoria);
 
                 PulisciCampi();
             }
-
             else
             {
                 if (valoriIMC.Count == 0)
                 {
-                    MessageBox.Show("Nessun dato disponibile.\nInserisci prima almeno una persona con IMC singolo.");
+                    MessageBox.Show("Inserisci prima almeno una persona con IMC singolo.");
                     return;
                 }
 
@@ -130,9 +126,9 @@ namespace EsIMC
                     if (Math.Round(valoriIMC[i], 1) == Math.Round(valoriIMC[j], 1))
                         contatore++;
                 }
-                if (contatore > maxContatore)
+                if (contatore > maxContatore)   //se contatore appare più volte del massimo
                 {
-                    maxContatore = contatore;
+                    maxContatore = contatore;    //aggiorna max
                     moda = valoriIMC[i];
                 }
             }
@@ -140,12 +136,12 @@ namespace EsIMC
             if (maxContatore > 1)
                 MessageBox.Show("La Moda (valore più frequente) è: " + Math.Round(moda, 2));
             else
-                MessageBox.Show("Nessun valore si ripete. Non c'è una moda.");
+                MessageBox.Show("Non c'è una moda.");
         }
 
         private double CalcolaMediana()
         {
-            List<double> copia = new List<double>();
+            List<double> copia = new List<double>();   //Creo la copia altrimenti mette i valori in ordine della lista che vede l'utente
             for (int i = 0; i < valoriIMC.Count; i++)
             {
                 copia.Add(valoriIMC[i]);
@@ -226,14 +222,25 @@ namespace EsIMC
         private void btnAvvia_Click(object sender, EventArgs e)
         {
             valoriIMC.Clear();
-            nomiPersone.Clear();
+            datiPersone.Clear();
             lstPersone.Items.Clear();
             PulisciCampi();
             ResetRadioButtons();
-            MessageBox.Show("Applicazione avviata.\nInserisci i dati e seleziona 'IMC Singolo' per aggiungere persone.");
+
+            panel2.Visible = true;
+            btnAvvia.Visible = false;
         }
 
-        private void btnSalva_Click(object sender, EventArgs e) { }
+        private void btnSalva_Click(object sender, EventArgs e)
+        {
+            if (datiPersone.Count == 0)
+            {
+                MessageBox.Show("Non ci sono dati da salvare.");
+                return;
+            }
+            File.WriteAllLines("datiIMC.txt", datiPersone);
+        }
+
         private void rdbIMCsingolo_CheckedChanged(object sender, EventArgs e) { }
         private void rdbMedia_CheckedChanged(object sender, EventArgs e) { }
         private void rdbModa_CheckedChanged(object sender, EventArgs e) { }
@@ -243,7 +250,15 @@ namespace EsIMC
         private void txtPeso_TextChanged(object sender, EventArgs e) { }
         private void txtAltezza_TextChanged(object sender, EventArgs e) { }
         private void lstPersone_SelectedIndexChanged(object sender, EventArgs e) { }
-        private void pnlImmagine_Paint(object sender, PaintEventArgs e) 
+        private void pnlImmagine_Paint(object sender, PaintEventArgs e) { }
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+        }
+        private void panel2_Paint(object sender, EventArgs e) { }
+
+        private void lstPersone_SelectedIndexChanged_1(object sender, EventArgs e)
         {
         }
     }
